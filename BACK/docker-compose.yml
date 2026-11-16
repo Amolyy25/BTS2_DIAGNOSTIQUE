@@ -1,0 +1,21 @@
+services:
+    postgres:
+        image: postgres:16
+        container_name: postgres_db
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: sallelib
+            POSTGRES_PASSWORD: sallelib_password
+            POSTGRES_DB: sallelib
+        ports:
+            - "5433:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U sallelib -d sallelib"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+volumes:
+    postgres_data:
